@@ -2,10 +2,7 @@ package model;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -20,7 +17,18 @@ public class Employee {
     private char sex;
     @Column(name="birth")
     private Date dob;
+    private Date created;
+    private Date updated;
 
+    @PrePersist
+    protected void onCreate() {
+        created = new Date(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date(System.currentTimeMillis());
+    }
     public int getId() {
         return id;
     }

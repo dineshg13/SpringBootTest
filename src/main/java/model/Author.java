@@ -1,12 +1,9 @@
 package model;
 
+import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -18,6 +15,19 @@ public class Author {
 	@Column(name = "authorId")
 	private int authorId;
 	private String authorName;
+
+	private Date created;
+	private Date updated;
+
+	@PrePersist
+	protected void onCreate() {
+		created = new Date(System.currentTimeMillis());
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updated = new Date(System.currentTimeMillis());
+	}
 
 	@ManyToMany(mappedBy = "bookAuthors")
 	@JsonBackReference

@@ -1,16 +1,9 @@
 package model;
 
+import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -23,6 +16,19 @@ public class Book {
 	private int bookId;
 
 	private String bookName;
+
+	private Date created;
+	private Date updated;
+
+	@PrePersist
+	protected void onCreate() {
+		created = new Date(System.currentTimeMillis());
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updated = new Date(System.currentTimeMillis());
+	}
 
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
